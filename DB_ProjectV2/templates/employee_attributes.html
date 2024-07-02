@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Attributes</title>
+</head>
+<body>
+    <h1>Employee Attributes</h1>
+    {% include 'navbar.html' %}
+
+    <h2>Create Employee Attribute</h2>
+    <form action="/employee-attributes/create" method="post">
+        <label>Employee ID: <input type="number" name="employee_id"></label><br>
+        <label>Attribute Name: <input type="text" name="attribute_name"></label><br>
+        <label>Attribute Value: <input type="text" name="attribute_value"></label><br>
+        <input type="submit" value="Create">
+    </form>
+
+    <h2>Existing Employee Attributes</h2>
+    <ul>
+    {% for attribute in attributes %}
+        <li>
+            {{ attribute.attribute_name }} - {{ attribute.attribute_value }} (Employee ID: {{ attribute.employee_id }})
+            <form action="/employee-attributes/delete/{{ attribute.id }}" method="post" style="display:inline;">
+                <input type="submit" value="Delete">
+            </form>
+            <button onclick="document.getElementById('edit-form-{{ attribute.id }}').style.display='block'">Edit</button>
+            <div id="edit-form-{{ attribute.id }}" style="display:none;">
+                <h3>Edit Employee Attribute</h3>
+                <form action="/employee-attributes/edit/{{ attribute.id }}" method="post">
+                    <label>Employee ID: <input type="number" name="employee_id" value="{{ attribute.employee_id }}"></label><br>
+                    <label>Attribute Name: <input type="text" name="attribute_name" value="{{ attribute.attribute_name }}"></label><br>
+                    <label>Attribute Value: <input type="text" name="attribute_value" value="{{ attribute.attribute_value }}"></label><br>
+                    <input type="submit" value="Save">
+                </form>
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

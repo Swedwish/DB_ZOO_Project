@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enclosures</title>
+</head>
+<body>
+    <h1>Enclosures</h1>
+    {% include 'navbar.html' %}
+
+    <h2>Create Enclosure</h2>
+    <form action="/enclosures/create" method="post">
+        <label>Size: <input type="number" name="size"></label><br>
+        <label>Is Heated: <input type="checkbox" name="is_heated"></label><br>
+        <input type="submit" value="Create">
+    </form>
+
+    <h2>Existing Enclosures</h2>
+    <ul>
+    {% for enclosure in enclosures %}
+        <li>
+            Size: {{ enclosure.size }}, Is Heated: {{ enclosure.is_heated }}
+            <form action="/enclosures/delete/{{ enclosure.id }}" method="post" style="display:inline;">
+                <input type="submit" value="Delete">
+            </form>
+            <button onclick="document.getElementById('edit-form-{{ enclosure.id }}').style.display='block'">Edit</button>
+            <div id="edit-form-{{ enclosure.id }}" style="display:none;">
+                <h3>Edit Enclosure</h3>
+                <form action="/enclosures/edit/{{ enclosure.id }}" method="post">
+                    <label>Size: <input type="number" name="size" value="{{ enclosure.size }}"></label><br>
+                    <label>Is Heated: <input type="checkbox" name="is_heated" {% if enclosure.is_heated %}checked{% endif %}></label><br>
+                    <input type="submit" value="Save">
+                </form>
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

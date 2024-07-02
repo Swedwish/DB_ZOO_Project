@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employees Responsible for Animals</title>
+</head>
+<body>
+    <h1>Employees Responsible for Animals</h1>
+    {% include 'navbar.html' %}
+
+    <h2>Search Criteria</h2>
+    <form action="/task2" method="get">
+        <label for="animal_id">Animal ID:</label>
+        <input type="number" id="animal_id" name="animal_id">
+        <br>
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date">
+        <br>
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date">
+        <br>
+        <input type="submit" value="Search">
+    </form>
+
+    <h2>Employees Responsible</h2>
+    <p>Total employees: {{ total_count }}</p>
+    <ul>
+    {% for employee in employees %}
+        <li>{{ employee.name }} - {{ employee.position }}</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Supplies</title>
+</head>
+<body>
+    <h1>Supplies</h1>
+    {% include 'navbar.html' %}
+
+    <h2>Create Supply</h2>
+    <form action="/supplies/create" method="post">
+        <label>Food ID: <input type="number" name="food_id"></label><br>
+        <label>Supplier Name: <input type="text" name="supplier_name"></label><br>
+        <input type="submit" value="Create">
+    </form>
+
+    <h2>Existing Supplies</h2>
+    <ul>
+    {% for supply in supplies %}
+        <li>
+            Food ID: {{ supply.food_id }}, Supplier Name: {{ supply.supplier_name }}
+            <form action="/supplies/delete/{{ supply.id }}" method="post" style="display:inline;">
+                <input type="submit" value="Delete">
+            </form>
+            <button onclick="document.getElementById('edit-form-{{ supply.id }}').style.display='block'">Edit</button>
+            <div id="edit-form-{{ supply.id }}" style="display:none;">
+                <h3>Edit Supply</h3>
+                <form action="/supplies/edit/{{ supply.id }}" method="post">
+                    <label>Food ID: <input type="number" name="food_id" value="{{ supply.food_id }}"></label><br>
+                    <label>Supplier Name: <input type="text" name="supplier_name" value="{{ supply.supplier_name }}"></label><br>
+                    <input type="submit" value="Save">
+                </form>
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

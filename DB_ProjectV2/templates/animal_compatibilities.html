@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Animal Compatibilities</title>
+</head>
+<body>
+    <h1>Animal Compatibilities</h1>
+    {% include 'navbar.html' %}
+
+    <h2>Create Animal Compatibility</h2>
+    <form action="/animal-compatibilities/create" method="post">
+        <label>First Species: <input type="text" name="first_species"></label><br>
+        <label>Second Species: <input type="text" name="second_species"></label><br>
+        <label>Compatible: <input type="checkbox" name="is_compatible"></label><br>
+        <input type="submit" value="Create">
+    </form>
+
+    <h2>Existing Animal Compatibilities</h2>
+    <ul>
+    {% for compatibility in compatibilities %}
+        <li>
+            First Species: {{ compatibility.first_species }},
+            Second Species: {{ compatibility.second_species }},
+            Compatible: {% if compatibility.is_compatible %}Yes{% else %}No{% endif %}
+            <form action="/animal-compatibilities/delete/{{ compatibility.id }}" method="post" style="display:inline;">
+                <input type="submit" value="Delete">
+            </form>
+            <button onclick="document.getElementById('edit-form-{{ compatibility.id }}').style.display='block'">Edit</button>
+            <div id="edit-form-{{ compatibility.id }}" style="display:none;">
+                <h3>Edit Animal Compatibility</h3>
+                <form action="/animal-compatibilities/edit/{{ compatibility.id }}" method="post">
+                    <label>First Species: <input type="text" name="first_species" value="{{ compatibility.first_species }}"></label><br>
+                    <label>Second Species: <input type="text" name="second_species" value="{{ compatibility.second_species }}"></label><br>
+                    <label>Compatible: <input type="checkbox" name="is_compatible" {% if compatibility.is_compatible %}checked{% endif %}></label><br>
+                    <input type="submit" value="Save">
+                </form>
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rations</title>
+</head>
+<body>
+    <h1>Rations</h1>
+    {% include 'navbar.html' %}
+
+    <h2>Create Ration</h2>
+    <form action="/rations/create" method="post">
+        <label>Day of the Week:
+            <select name="day_of_the_week" required>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+            </select>
+        </label><br>
+        <label>Time: <input type="time" name="time" required></label><br>
+        <label>Food ID: <input type="number" name="food_id" required></label><br>
+        <label>Animal ID: <input type="number" name="animal_id" required></label><br>
+        <input type="submit" value="Create">
+    </form>
+
+    <h2>Existing Rations</h2>
+    <ul>
+    {% for ration in rations %}
+        <li>
+            Day of the Week: {{ ration.day_of_the_week }},
+            Time: {{ ration.time }},
+            Food ID: {{ ration.food_id }},
+            Animal ID: {{ ration.animal_id }}
+            <form action="/rations/delete/{{ ration.id }}" method="post" style="display:inline;">
+                <input type="submit" value="Delete">
+            </form>
+            <button onclick="document.getElementById('edit-form-{{ ration.id }}').style.display='block'">Edit</button>
+            <div id="edit-form-{{ ration.id }}" style="display:none;">
+                <h3>Edit Ration</h3>
+                <form action="/rations/edit/{{ ration.id }}" method="post">
+                    <label>Day of the Week:
+                        <select name="day_of_the_week" required>
+                            <option value="Monday" {% if ration.day_of_the_week == "Monday" %}selected{% endif %}>Monday</option>
+                            <option value="Tuesday" {% if ration.day_of_the_week == "Tuesday" %}selected{% endif %}>Tuesday</option>
+                            <option value="Wednesday" {% if ration.day_of_the_week == "Wednesday" %}selected{% endif %}>Wednesday</option>
+                            <option value="Thursday" {% if ration.day_of_the_week == "Thursday" %}selected{% endif %}>Thursday</option>
+                            <option value="Friday" {% if ration.day_of_the_week == "Friday" %}selected{% endif %}>Friday</option>
+                            <option value="Saturday" {% if ration.day_of_the_week == "Saturday" %}selected{% endif %}>Saturday</option>
+                            <option value="Sunday" {% if ration.day_of_the_week == "Sunday" %}selected{% endif %}>Sunday</option>
+                        </select>
+                    </label><br>
+                    <label>Time: <input type="time" name="time" value="{{ ration.time }}" required></label><br>
+                    <label>Food ID: <input type="number" name="food_id" value="{{ ration.food_id }}" required></label><br>
+                    <label>Animal ID: <input type="number" name="animal_id" value="{{ ration.animal_id }}" required></label><br>
+                    <input type="submit" value="Save">
+                </form>
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Foods</title>
+</head>
+<body>
+    <h1>Foods</h1>
+    {% include 'navbar.html' %}
+
+    <h2>Create Food</h2>
+    <form action="/foods/create" method="post">
+        <label>Type: <input type="text" name="type"></label><br>
+        <label>Name: <input type="text" name="name"></label><br>
+        <input type="submit" value="Create">
+    </form>
+
+    <h2>Existing Foods</h2>
+    <ul>
+    {% for food in foods %}
+        <li>
+            Type: {{ food.type }}, Name: {{ food.name }}
+            <form action="/foods/delete/{{ food.id }}" method="post" style="display:inline;">
+                <input type="submit" value="Delete">
+            </form>
+            <button onclick="document.getElementById('edit-form-{{ food.id }}').style.display='block'">Edit</button>
+            <div id="edit-form-{{ food.id }}" style="display:none;">
+                <h3>Edit Food</h3>
+                <form action="/foods/edit/{{ food.id }}" method="post">
+                    <label>Type: <input type="text" name="type" value="{{ food.type }}"></label><br>
+                    <label>Name: <input type="text" name="name" value="{{ food.name }}"></label><br>
+                    <input type="submit" value="Save">
+                </form>
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vet Cards</title>
+</head>
+<body>
+    <h1>Vet Cards</h1>
+    {% include 'navbar.html' %}
+
+    <h2>Create Vet Card</h2>
+    <form action="/vet-cards/create" method="post">
+        <label>Employee ID: <input type="number" name="employee_id" required></label><br>
+        <label>Animal ID: <input type="number" name="animal_id" required></label><br>
+        <label>Current Diseases: <input type="text" name="current_diseases"></label><br>
+        <label>Got Vaccination: <input type="text" name="got_vaccination" required></label><br> <!-- Updated to text input -->
+        <label>Date: <input type="date" name="date" required></label><br>
+        <label>Weight: <input type="number" step="0.01" name="weight"></label><br>
+        <label>Height: <input type="number" step="0.01" name="height"></label><br>
+        <input type="submit" value="Create">
+    </form>
+
+    <h2>Existing Vet Cards</h2>
+    <ul>
+    {% for vet_card in vet_cards %}
+        <li>
+            Employee ID: {{ vet_card.employee_id }}, Animal ID: {{ vet_card.animal_id }}, 
+            Current Diseases: {{ vet_card.current_diseases or "None" }},
+            Got Vaccination: {{ vet_card.got_vaccination }},
+            Date: {{ vet_card.date }}, Weight: {{ vet_card.weight or "N/A" }}, Height: {{ vet_card.height or "N/A" }}
+            <form action="/vet-cards/delete/{{ vet_card.id }}" method="post" style="display:inline;">
+                <input type="submit" value="Delete">
+            </form>
+            <button onclick="document.getElementById('edit-form-{{ vet_card.id }}').style.display='block'">Edit</button>
+            <div id="edit-form-{{ vet_card.id }}" style="display:none;">
+                <h3>Edit Vet Card</h3>
+                <form action="/vet-cards/edit/{{ vet_card.id }}" method="post">
+                    <label>Employee ID: <input type="number" name="employee_id" value="{{ vet_card.employee_id }}" required></label><br>
+                    <label>Animal ID: <input type="number" name="animal_id" value="{{ vet_card.animal_id }}" required></label><br>
+                    <label>Current Diseases: <input type="text" name="current_diseases" value="{{ vet_card.current_diseases }}"></label><br>
+                    <label>Got Vaccination: <input type="text" name="got_vaccination" value="{{ vet_card.got_vaccination }}" required></label><br> <!-- Updated to text input -->
+                    <label>Date: <input type="date" name="date" value="{{ vet_card.date }}" required></label><br>
+                    <label>Weight: <input type="number" step="0.01" name="weight" value="{{ vet_card.weight }}"></label><br>
+                    <label>Height: <input type="number" step="0.01" name="height" value="{{ vet_card.height }}"></label><br>
+                    <input type="submit" value="Save">
+                </form>
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

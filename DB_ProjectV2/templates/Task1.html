@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task 1 - Employees</title>
+</head>
+<body>
+    <h1>Task 1 - Employees</h1>
+    {% include 'navbar.html' %}
+
+    <form action="/task1" method="get" onsubmit="return validateForm()">
+        <label for="min_age">Minimum Age:</label>
+        <input type="number" id="min_age" name="min_age">
+        <br>
+        <label for="min_salary">Minimum Salary:</label>
+        <input type="number" id="min_salary" name="min_salary">
+        <br>
+        <label for="position">Position:</label>
+        <input type="text" id="position" name="position">
+        <br>
+        <label for="sex">Sex:</label>
+        <input type="text" id="sex" name="sex">
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        function validateForm() {
+            var minAge = document.getElementById('min_age').value.trim();
+            var minSalary = document.getElementById('min_salary').value.trim();
+        
+            // Convert empty strings to null to send as null in the request
+            if (minAge === "") {
+                document.getElementById('min_age').value = "0";
+            }
+            if (minSalary === "") {
+                document.getElementById('min_salary').value = "0";
+            }
+        
+            return true;
+        }
+    </script>
+
+    <h2>Filtered Employees</h2>
+    <p>Total Count: {{ total_count }}</p>
+    <ul>
+    {% for employee in employees %}
+        <li>
+            Name: {{ employee.name }}, Position: {{ employee.position }}, Age: {{ employee.age }}, Salary: {{ employee.salary }}
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

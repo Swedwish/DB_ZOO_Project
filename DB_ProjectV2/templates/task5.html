@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task 5</title>
+</head>
+<body>
+    <h1>Animals Needing Heated Enclosure for Winter</h1>
+    {% include 'navbar.html' %}
+    <form method="get" action="/task5">
+        <label for="species">Species:</label>
+        <input type="text" id="species" name="species">
+        <br>
+        <label for="min_age">Min Age:</label>
+        <input type="number" id="min_age" name="min_age" value="0">
+        <br>
+        <label for="max_age">Max Age:</label>
+        <input type="number" id="max_age" name="max_age" value="400">
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+    <h2>Total Count: {{ total_count }}</h2>
+    <ul>
+        {% for animal in animals %}
+            <li>{{ animal.name }} ({{ animal.species }}) - Age: {{ (current_year - animal.date_of_birth.year) }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

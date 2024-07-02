@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enclosure Access</title>
+</head>
+<body>
+    <h1>Enclosure Access</h1>
+    {% include 'navbar.html' %}
+
+    <h2>Create Enclosure Access</h2>
+    <form action="/enclosure-access/create" method="post">
+        <label>Enclosure ID: <input type="number" name="enclosure_id"></label><br>
+        <label>Employee ID: <input type="number" name="employee_id"></label><br>
+        <input type="submit" value="Create">
+    </form>
+
+    <h2>Existing Enclosure Access</h2>
+    <ul>
+    {% for access in access_list %}
+        <li>
+            Enclosure ID: {{ access.enclosure_id }}, Employee ID: {{ access.employee_id }}
+            <form action="/enclosure-access/delete/{{ access.enclosure_id }}/{{ access.employee_id }}" method="post" style="display:inline;">
+                <input type="submit" value="Delete">
+            </form>
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

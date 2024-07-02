@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employees</title>
+</head>
+<body>
+    <h1>Employees</h1>
+
+    {% include 'navbar.html' %}
+
+    <h2>Create Employee</h2>
+    <form action="/employees/create" method="post">
+        <label>Name: <input type="text" name="name"></label><br>
+        <label>Position: <input type="text" name="position"></label><br>
+        <label>Sex: <input type="text" name="sex"></label><br>
+        <label>Age: <input type="number" name="age"></label><br>
+        <label>Start Date: <input type="text" name="start_date"></label><br>
+        <label>Salary: <input type="number" name="salary"></label><br>
+        <input type="submit" value="Create">
+    </form>
+
+    <h2>Existing Employees</h2>
+    <ul>
+    {% for employee in employees %}
+        <li>
+            {{ employee.id }} - {{ employee.name }} - {{ employee.position }}
+            <form action="/employees/delete/{{ employee.id }}" method="post" style="display:inline;">
+                <input type="submit" value="Delete">
+            </form>
+            <button onclick="document.getElementById('edit-form-{{ employee.id }}').style.display='block'">Edit</button>
+            <div id="edit-form-{{ employee.id }}" style="display:none;">
+                <h3>Edit Employee</h3>
+                <form action="/employees/edit/{{ employee.id }}" method="post">
+                    <label>Name: <input type="text" name="name" value="{{ employee.name }}"></label><br>
+                    <label>Position: <input type="text" name="position" value="{{ employee.position }}"></label><br>
+                    <label>Sex: <input type="text" name="sex" value="{{ employee.sex }}"></label><br>
+                    <label>Age: <input type="number" name="age" value="{{ employee.age }}"></label><br>
+                    <label>Start Date: <input type="text" name="start_date" value="{{ employee.start_date }}"></label><br>
+                    <label>Salary: <input type="number" name="salary" value="{{ employee.salary }}"></label><br>
+                    <input type="submit" value="Save">
+                </form>
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
