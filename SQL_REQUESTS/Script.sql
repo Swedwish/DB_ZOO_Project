@@ -1,0 +1,1 @@
+SELECT x.* FROM public.animal x
